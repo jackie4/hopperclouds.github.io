@@ -4,9 +4,9 @@
 
 # Site
 title: 聘宝
-subtitle: 新一代智能猎头
-description: 一群有追求的人在一起做一件有最求的事
-author: Pinbot
+subtitle: 一群有追求的人
+description: 做有趣的事
+author: 聘宝
 language: zh-CN
 timezone: Asia/Shanghai
 
@@ -63,7 +63,7 @@ pagination_dir: page
 # Extensions
 ## Plugins: http://hexo.io/plugins/
 ## Themes: http://hexo.io/themes/
-theme: landscape
+theme: hueman
 
 # Deployment
 ## Docs: http://hexo.io/docs/deployment.html
@@ -71,3 +71,42 @@ deploy:
   type: git 
   repo: https://github.com/HopperClouds/hopperclouds.github.io.git
   branch: master
+
+# Header
+menu:
+  home: /
+
+# Content
+fancybox: true
+
+# Thumbnail
+thumbnail: true
+
+# Scroll Loading
+scrollLoading: true
+
+# Sidebar
+social_links:
+  weibo: http://weibo.com/pinbot?nick=%E8%81%98%E5%AE%9D
+  github: https://github.com/HopperClouds/
+
+widgets:
+  - recent_posts
+  - category
+  - archive
+  - tag
+  - tagcloud
+  - links
+
+# Links
+links:
+  聘宝产品: http://www.pinbot.me
+  runforever github: https://github.com/runforever/
+
+# Miscellaneous
+# google_analytics:
+# favicon: /favicon.png
+
+# comment
+comment: true
+disqus_shortname: hopperclouds
