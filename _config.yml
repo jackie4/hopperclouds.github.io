@@ -68,7 +68,7 @@ theme: hueman
 # Deployment
 ## Docs: http://hexo.io/docs/deployment.html
 deploy:
-  type: git 
+  type: git
   repo: https://github.com/HopperClouds/hopperclouds.github.io.git
   branch: master
 
