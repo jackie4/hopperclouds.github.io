@@ -11,7 +11,7 @@ tags:
 
 现在主要做的产品是 <http://www.pinbot.me/> ,已经拿到A轮
 
-坐标：四川成都高新区府城大道天府新谷5号楼705成都浩泊运动科技有限公司
+坐标：四川成都高新区府城大道天府新谷5号楼705成都浩泊云动科技有限公司
 
 # 我们的研发团队喜欢什么
 
@@ -106,10 +106,10 @@ tags:
         后续可以让我们的算法工程师来做一个测试程序
 
         >>> i_want_you('Python HTML Docker MySQL')
-        'I want you'
+        I want you
 
         >>> i_want_you('java')
-        'hehe'
+        hehe
         """
         your_skill = [i.lower() for i in your_skill.split()]
         print 'I want you' if set(your_skill).intersection(ALL_SKILL) else 'hehe'
