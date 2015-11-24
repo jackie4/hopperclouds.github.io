@@ -26,6 +26,13 @@ tags:
     # 安装hexo 依赖的node库
     cnpm install
 
+    # 遇到问题
+    # { [Error: Cannot find module './build/Release/DTraceProviderBindings' ] code: 'MODULE_NOT_FOUND'  }
+    # { [Error: Cannot find module './build/default/DTraceProviderBindings' ] code: 'MODULE_NOT_FOUND'  }
+    # { [Error: Cannot find module './build/Debug/DTraceProviderBindings' ] code: 'MODULE_NOT_FOUND'  }
+    # 使用
+    cnpm install --no-optional
+
 ### 开始写文章
 
     hexo new "your title"
@@ -60,6 +67,10 @@ tags:
 ### 发布
 
     hexo deploy
+
+### 将markdown源码push到source分支
+
+    git push origin master:source
 
 ## 总结
 
