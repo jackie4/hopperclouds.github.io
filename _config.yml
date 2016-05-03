@@ -63,13 +63,13 @@ pagination_dir: page
 # Extensions
 ## Plugins: http://hexo.io/plugins/
 ## Themes: http://hexo.io/themes/
-theme: hueman
+theme: landscape-plus
 
 # Deployment
 ## Docs: http://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: https://github.com/HopperClouds/hopperclouds.github.io.git
+  repo: git@github.com:HopperClouds/hopperclouds.github.io.git
   branch: master
 
 # Header
