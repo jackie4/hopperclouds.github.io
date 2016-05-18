@@ -12,6 +12,7 @@ tags:
 1.  [官网](https://hexo.io/)
 2.  <http://wsgzao.github.io/post/hexo-guide/>
 
+<!--more-->
 ## 基本使用
 
 ### 准备
