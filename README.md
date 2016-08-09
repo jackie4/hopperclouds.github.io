@@ -1,8 +1,13 @@
 
 ##Blog采用landscape-plus主题
 ```
-更新landscape-plus
-git submodule update
+如何下载主题landscape-plus？
+cd themes
+git submodule update --init --recursive
+
+如何发布到blog.pinbot.me?
+cd hopperclouds.github.io
+./node_modules/hexo/bin/hexo generate
 ```
 
 ##关于submodule
