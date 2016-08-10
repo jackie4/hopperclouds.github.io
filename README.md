@@ -52,3 +52,27 @@ git submodule update --init --recursive
 npm uninstall hexo-livereload --save
 npm install hexo-browsersync --save
 ```
+2. 如何禁止百度分享
+
+> 编辑_config.yml[39行]: baidushare: false
+
+3. 如何激活多说？
+
+> 编辑 _config.yml[36行]: duoshuo_shortname: blogpinbot<br>
+> 模板：layout/_partial/article.ejs[48行(id="ds-thread")]下面增加：
+
+```html
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:"<%- config.duoshuo_shortname %>"};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+      </script>
+    <!-- 多说公共JS代码 end -->
+```
