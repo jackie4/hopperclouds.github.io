@@ -8,6 +8,7 @@
   "dependencies": {
     "hexo": "^3.2.2",
     "hexo-admin": "^2.1.0",
+    "hexo-browsersync": "^0.2.0",
     "hexo-deployer-ftpsync": "^0.1.1",
     "hexo-deployer-git": "0.0.4",
     "hexo-deployer-rsync": "^0.1.2",
@@ -20,7 +21,6 @@
     "hexo-generator-tag": "^0.1.1",
     "hexo-index-anything": "0.0.4",
     "hexo-inject": "^1.0.0",
-    "hexo-livereload": "^0.2.0",
     "hexo-math": "^3.0.1",
     "hexo-pdf": "^1.1.0",
     "hexo-renderer-ejs": "^0.1.0",

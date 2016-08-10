@@ -45,3 +45,10 @@ git submodule update --init --recursive
 2. 尽量不要使用 git commit -a， git add命令存在的意义就是让你对加入暂存区的文件做二次确认，而 git commit -a相当于跳过了这个确认过程。
 3. 你需要对submodule做一些修改，默认git submodule update并不会将submodule切到任何branch，所以，默认下submodule的HEAD是处于游离状态的(‘detached HEAD’ state)。所以在修改前，记得一定要用git checkout master将当前的submodule分支切换到master，然后才能做修改和提交。
 ```
+
+## 常见问题
+1. 替换hexo-livereload (TypeError: Cannot read property 'modified' of undefined at Router...)
+```
+npm uninstall hexo-livereload --save
+npm install hexo-browsersync --save
+```
