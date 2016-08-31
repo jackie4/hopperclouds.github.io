@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>聘宝</title>
+  <subtitle>一群有追求的人</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://hopperclouds.github.io/"/>
+  <updated>2016-08-09T03:12:44.000Z</updated>
+  <id>http://hopperclouds.github.io/</id>
+  
+  <author>
+    <name>聘宝</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>django自定义storage</title>
+    <link href="http://hopperclouds.github.io/2016/08/09/django%E8%87%AA%E5%AE%9A%E4%B9%89storage/"/>
+    <id>http://hopperclouds.github.io/2016/08/09/django自定义storage/</id>
+    <published>2016-08-09T03:12:44.000Z</published>
+    <updated>2016-08-09T03:12:44.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>&#x6700;&#x8FD1;&#x9047;&#x5230;&#x4E86;&#x8FD9;&#x6837;&#x7684;&#x4E00;&#x4E2A;&#x95EE;&#x9898;&#xFF0C;&#x7531;&#x4E8E;&#x67D0;&#x4E9B;&#x539F;&#x56E0;&#xFF0C;&#x9700;&#x8981;&#x628A;&#x9759;&#x6001;&#x6587;&#x4EF6;&#x653E;&#x5230;cdn&#x4E0A;&#xFF0C;&#x4E4B;&#x524D;&#x4F7F;&#x7528;&#x7684;&#x662F;django&#x9ED8;&#x8BA4;&#x7684;storage&#xFF08;FileSystemStorage&#xFF09;&#x3002;&#x4E8E;&#x662F;&#x8FD9;&#x91CC;&#x9700;&#x8981;&#x81EA;&#x5B9A;&#x4E49;storage&#x3002;<br>&#x7B2C;&#x4E00;&#x6B21;&#x5199;storage&#xFF0C;&#x8FC7;&#x7A0B;&#x4E2D;&#x9047;&#x5230;&#x4E00;&#x4E9B;&#x5751;&#xFF0C;&#x8BB0;&#x5F55;&#x4E0B;&#x6765;&#x3002;<br><a id="more"></a></p>
+<h2 id="&#x4EC0;&#x4E48;&#x662F;storage"><a href="#&#x4EC0;&#x4E48;&#x662F;storage" class="headerlink" title="&#x4EC0;&#x4E48;&#x662F;storage"></a>&#x4EC0;&#x4E48;&#x662F;storage</h2><p>&#x5176;&#x5B9E;&#x8FD9;&#x4E2A;&#x73A9;&#x610F;&#x8981;&#x6211;&#x8BF4;&#x660E;&#x767D;&#xFF0C;&#x597D;&#x50CF;&#x6709;&#x70B9;&#x96BE;&#xFF0C;&#x4E8E;&#x662F;&#x6211;&#x5C31;&#x6309;&#x6211;&#x7684;&#x65B9;&#x6CD5;&#x8BF4;&#xFF0C;&#x5982;&#x679C;&#x6709;&#x9519;&#xFF0C;&#x8C22;&#x8C22;&#x6307;&#x6B63;&#xFF01;<br>&#x9996;&#x5148;&#xFF0C;&#x6211;&#x4EEC;&#x7684;web&#x4E2D;&#x4F7F;&#x7528;&#x4E86;&#x8BB8;&#x591A;&#x7684;&#x6A21;&#x7248;&#x6587;&#x4EF6;&#xFF0C;&#x9759;&#x6001;&#x6587;&#x4EF6;&#xFF0C;&#x5982;js,css&#xFF0C;&#x56FE;&#x7247;&#x8FD9;&#x4E9B;&#xFF0C;&#x6211;&#x4EEC;&#x5728;&#x914D;&#x7F6E;&#x670D;&#x52A1;&#x5668;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x8BA9;nginx&#x5BF9;&#x8BF7;&#x6C42;&#x8FDB;&#x884C;&#x5206;&#x53D1;&#xFF0C;&#x5C06;&#x52A8;&#x6001;&#x8BF7;&#x6C42;&#x5206;&#x53D1;&#x7ED9;uWSGI&#xFF0C;&#x5C06;&#x9759;&#x6001;&#x6587;&#x4EF6;&#x4EA4;&#x7531;nginx&#x5904;&#x7406;&#xFF0C;&#x8FD9;&#x91CC;nginx&#x5C06;&#x4ECE;&#x6587;&#x4EF6;&#x7CFB;&#x7EDF;&#x4E2D;&#x8BFB;&#x53D6;&#x9759;&#x6001;&#x8D44;&#x6E90;&#xFF0C;&#x8FD9;&#x91CC;&#x7684;&#x6587;&#x4EF6;&#x7CFB;&#x7EDF;&#x5C31;&#x662F;&#x6211;&#x4EEC;&#x5F53;&#x524D;&#x7684;storage&#x3002;<br>&#x4F46;&#x662F;&#x8FD9;&#x91CC;&#x6211;&#x4EEC;&#x662F;&#x60F3;&#x7528;cdn&#xFF0C;&#x4E8E;&#x662F;&#x6211;&#x4EEC;&#x8FD9;&#x91CC;&#x7684;&#x9759;&#x6001;&#x8D44;&#x6E90;&#x4E0D;&#x5728;&#x4ECE;&#x670D;&#x52A1;&#x5668;&#x4E0A;&#x52A0;&#x8F7D;&#xFF0C;&#x800C;&#x662F;&#x4ECE;&#x6211;&#x4EEC;&#x7684;cdn&#x670D;&#x52A1;&#x63D0;&#x4F9B;&#x5546;&#x90A3;&#x91CC;&#x52A0;&#x8F7D;&#xFF0C;&#x8FD9;&#x91CC;&#x6211;&#x4EEC;&#x53C8;&#x6709;&#x4E00;&#x4E2A;&#x95EE;&#x9898;&#x4E86;&#xFF0C;cdn&#x670D;&#x52A1;&#x63D0;&#x4F9B;&#x5546;&#x600E;&#x4E48;&#x7ED9;&#x51FA;&#x6B63;&#x786E;&#x7684;&#x8D44;&#x6E90;&#xFF0C;&#x4E8E;&#x662F;&#x6211;&#x4EEC;&#x5C31;&#x9700;&#x8981;&#x81EA;&#x5DF1;&#x6765;&#x5199;&#x4E00;&#x4E2A;storage&#xFF0C;&#x5C06;&#x539F;&#x6765;&#x7684;&#x6587;&#x4EF6;&#x7CFB;&#x7EDF;&#x66F4;&#x6362;&#x4E3A;cdn&#x63D0;&#x4F9B;&#x5546;&#x7684;&#x7A7A;&#x95F4;&#x3002;</p>
+<h2 id="storage&#x7684;&#x7ED3;&#x6784;&#x548C;&#x91CD;&#x5199;"><a href="#storage&#x7684;&#x7ED3;&#x6784;&#x548C;&#x91CD;&#x5199;" class="headerlink" title="storage&#x7684;&#x7ED3;&#x6784;&#x548C;&#x91CD;&#x5199;"></a>storage&#x7684;&#x7ED3;&#x6784;&#x548C;&#x91CD;&#x5199;</h2><p>&#x8FD9;&#x91CC;&#x5C31;&#x9700;&#x8981;&#x53C2;&#x8003;django&#x7684;&#x5B98;&#x65B9;&#x6587;&#x6863;&#x4E86;(<a href="https://docs.djangoproject.com/en/1.9/howto/custom-file-storage/" target="_blank" rel="external">&#x539F;&#x7248;</a>,<a href="http://python.usyiyi.cn/django/howto/custom-file-storage.html" target="_blank" rel="external">&#x7FFB;&#x8BD1;&#x7248;</a>)&#xFF0C;&#x7531;&#x4E8E;&#x6211;&#x7684;&#x5916;&#x8BED;&#x6C34;&#x5E73;&#x4E0D;&#x662F;&#x5F88;&#x597D;&#xFF0C;&#x505A;&#x7684;&#x65F6;&#x5019;&#x4E3A;&#x4E86;&#x56FE;&#x6548;&#x7387;&#xFF0C;&#x5C31;&#x6CA1;&#x6709;&#x82B1;&#x65F6;&#x95F4;&#x53BB;&#x7422;&#x78E8;&#x82F1;&#x6587;&#x5B98;&#x65B9;&#x6587;&#x6863;&#xFF0C;&#x6240;&#x4EE5;&#x8FD9;&#x91CC;&#x7ED9;&#x4E00;&#x4E2A;&#x7FFB;&#x8BD1;&#x7684;&#x6587;&#x6863;&#x5730;&#x5740;&#xFF0C;&#x5F53;&#x7136;&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x80FD;&#x5F88;&#x5FEB;&#x770B;&#x660E;&#x767D;&#x5B98;&#x65B9;&#x7684;&#x6587;&#x6863;&#xFF0C;&#x90A3;&#x53BB;&#x8BFB;&#x539F;&#x7248;&#x662F;&#x66F4;&#x597D;&#x7684;&#x9009;&#x62E9;&#x3002;<br>&#x9996;&#x5148;&#xFF0C;&#x6211;&#x4EEC;&#x770B;&#x6587;&#x4EF6;&#x7CFB;&#x7EDF;&#x7684;&#x57FA;&#x7C7B;&#xFF0C;&#x5176;&#x6E90;&#x7801;&#x4F4D;&#x4E8E;<code>django/core/files/storage.py</code>&#x6587;&#x4EF6;&#x4E0B;&#x3002;&#x8FD9;&#x91CC;&#x6211;&#x5C31;&#x4E0D;&#x8D34;&#x5B83;&#x7684;&#x4EE3;&#x7801;&#x4E86;&#xFF0C;&#x5982;&#x679C;&#x9700;&#x8981;&#x67E5;&#x770B;&#x7ED3;&#x6784;&#xFF0C;&#x8BF7;&#x81EA;&#x884C;&#x5230;&#x8BE5;&#x6587;&#x4EF6;&#x4E0B;&#x67E5;&#x770B;&#xFF01;<br>&#x4ECE;&#x6587;&#x6863;&#x4E2D;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x4E86;&#x89E3;&#x7684;&#x4E00;&#x4E9B;&#x4E1C;&#x897F;&#xFF0C;&#x8FD9;&#x4E2A;&#x7C7B;&#x7684;&#x5B50;&#x7C7B;&#x9700;&#x8981;&#x4E0D;&#x5E26;&#x53C2;&#x6570;&#x5B9E;&#x4F8B;&#x5316;&#xFF0C;&#x4E8E;&#x662F;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x5728;settings&#x4E2D;&#x52A0;&#x5165;&#x81EA;&#x5B9A;&#x4E49;&#x7684;&#x53C2;&#x6570;&#x3002;<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">STATICFILES_STORAGE = <span class="string">&apos;project.storage.CustomStorage&apos;</span></div><div class="line">CUSTOM_STORAGE_OPTIONS = {</div><div class="line">    <span class="string">&apos;AccessKeyId&apos;</span>: <span class="string">&apos;your_accesskeyid&apos;</span>,</div><div class="line">    <span class="string">&apos;AccessKeySecret&apos;</span>: <span class="string">&apos;your_accesskeyidsecret&apos;</span>,</div><div class="line">    <span class="string">&apos;endpoint&apos;</span>: <span class="string">&apos;oss-cn-hangzhou.aliyuncs.com&apos;</span>,</div><div class="line">    <span class="string">&apos;oss_url&apos;</span>: <span class="string">&apos;http://oss-cn-hangzhou.aliyuncs.com&apos;</span>,</div><div class="line">    <span class="string">&apos;bucketname&apos;</span>: <span class="string">&apos;your_bucketname&apos;</span>,</div><div class="line">}</div><div class="line"></div><div class="line">COMPRESS_STORAGE = <span class="string">&apos;project.storage.CustomCompressorFileStorage&apos;</span></div><div class="line">STATIC_URL = <span class="string">&apos;your_cdn_prefix_address&apos;</span></div></pre></td></tr></table></figure></p>
+<p>&#x53C2;&#x6570;&#x8BF4;&#x660E;&#xFF1A;</p>
+<ul>
+<li>&#x8FD9;&#x91CC;&#x6211;&#x4EEC;&#x6307;&#x5B9A;&#x4E86;STATICFILES_STORAGE&#x4E3A;&#x6211;&#x4EEC;&#x81EA;&#x5B9A;&#x4E49;&#x7684;CustomStorage,&#x5982;&#x679C;&#x4E0D;&#x6307;&#x5B9A;&#xFF0C;&#x90A3;&#x4E48;&#x7CFB;&#x7EDF;&#x5C06;&#x4F1A;&#x4F7F;&#x7528;&#x9ED8;&#x8BA4;&#x7684;FileSystemStorage</li>
+<li>CUSTOM_STORAGE_OPTIONS&#x662F;&#x4E00;&#x4E2A;&#x4F60;&#x81EA;&#x5B9A;&#x4E49;&#x7684;Storage&#x521D;&#x59CB;&#x5316;&#x53C2;&#x6570;&#xFF0C;&#x8FD9;&#x91CC;&#x6211;&#x7528;&#x5B57;&#x5178;&#x6765;&#x521D;&#x59CB;&#x5316;&#xFF0C;&#x5F53;&#x7136;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x4F60;&#x89C9;&#x5F97;&#x5408;&#x7406;&#x7684;&#x4EFB;&#x4F55;&#x6570;&#x636E;&#x7C7B;&#x578B;&#x3002;</li>
+<li>COMPRESS_STORAGE&#x662F;&#x6211;&#x4EEC;&#x6307;&#x5B9A;&#x7684;&#x538B;&#x7F29;&#x6587;&#x4EF6;&#x7684;&#x5B58;&#x653E;&#x4F4D;&#x7F6E;&#xFF0C;&#x4E0E;STATICFILES_STORAGE&#x540C;&#x7406;&#x3002;</li>
+<li>STATIC_URL&#x8FD9;&#x4E2A;&#x5C31;&#x662F;&#x9759;&#x6001;&#x6587;&#x4EF6;&#x7684;&#x8DEF;&#x7531;&#x524D;&#x7F00;&#xFF0C;&#x4F8B;&#x5982;&#x4F60;&#x7684;&#x6587;&#x4EF6;&#x7CFB;&#x7EDF;&#x4E2D;&#x8DEF;&#x5F84;&#x662F;&#x2019;aa/bb.js&#x2019;&#xFF0C;&#x4F60;&#x7684;cdn&#x5730;&#x5740;&#x662F;&#x2019;static.cdn.com&#x2019;&#xFF0C;&#x8FD9;&#x91CC;&#x5C31;&#x4F7F;&#x7528;cdn&#x5730;&#x5740;&#x4F5C;&#x4E3A;&#x4F60;&#x7684;STATIC_URL</li>
+</ul>
+<p>&#x4ECE;&#x6587;&#x6863;&#x4E2D;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x77E5;&#x9053;&#xFF0C;&#x81EA;&#x5B9A;&#x4E49;&#x7684;storage&#xFF0C;&#x5FC5;&#x987B;&#x5B9E;&#x73B0;_open,_save&#x4E24;&#x4E2A;&#x65B9;&#x6CD5;&#xFF0C;&#x6211;&#x4EEC;&#x53C2;&#x8003;&#x6E90;&#x7801;&#x53EF;&#x4EE5;&#x77E5;&#x9053;&#xFF0C;&#x8FD9;&#x4E24;&#x4E2A;&#x65B9;&#x6CD5;&#x5206;&#x522B;&#x88AB;save&#x548C;open&#x4E24;&#x4E2A;&#x65B9;&#x6CD5;&#x8C03;&#x7528;&#xFF0C;&#x800C;&#x8FD9;&#x4E24;&#x4E2A;&#x65B9;&#x6CD5;&#x7684;&#x4F5C;&#x7528;&#x5206;&#x522B;&#x662F;&#x2018;&#x6253;&#x5F00;&#x6587;&#x4EF6;&#xFF0C;&#x8BFB;&#x53D6;&#x5185;&#x5BB9;&#x2019;&#x3001;&#x2018;&#x5C06;&#x6587;&#x4EF6;&#x4FDD;&#x5B58;&#x5230;&#x6307;&#x5B9A;&#x7684;&#x4F4D;&#x7F6E;&#x2019;&#xFF0C;&#x7531;&#x6B64;&#xFF0C;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x81EA;&#x5DF1;&#x5B9A;&#x4E49;&#x7684;&#x5B58;&#x50A8;&#x5C31;&#x5728;&#x8FD9;&#x91CC;&#x6765;&#x5B9E;&#x73B0;&#x3002;<br>&#x7531;&#x4E8E;&#x8FD9;&#x91CC;&#x6211;&#x91C7;&#x7528;&#x7684;&#x662F;&#x963F;&#x91CC;&#x4E91;&#x7684;oss&#xFF0C;&#x6240;&#x4EE5;&#x8BA4;&#x8BC1;&#x7684;&#x8FC7;&#x7A0B;&#xFF0C;&#x6211;&#x4EEC;&#x653E;&#x5728;&#x6784;&#x9020;&#x51FD;&#x6570;&#x4E2D;&#x5B8C;&#x6210;&#xFF0C;&#x672C;&#x7740;<code>D.R.Y</code>&#x7684;&#x539F;&#x5219;&#xFF0C;&#x4E3A;&#x4E86;&#x8BA9;&#x591A;&#x4E2A;&#x81EA;&#x5B9A;&#x4E49;&#x7684;storage&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#xFF0C;&#x6211;&#x4EEC;&#x5C06;&#x5B83;&#x653E;&#x5728;&#x5916;&#x90E8;&#xFF0C;&#x53EA;&#x5728;&#x6784;&#x9020;&#x51FD;&#x6570;&#x91CC;&#x6765;&#x4F7F;&#x7528;&#x5B83;&#x3002;<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">authticate</span><span class="params">(option)</span>:</span></div><div class="line">    auth = oss2.Auth(</div><div class="line">        option.get(<span class="string">&apos;AccessKeyId&apos;</span>),</div><div class="line">        option.get(<span class="string">&apos;AccessKeySecret&apos;</span>)</div><div class="line">    )</div><div class="line">    service = oss2.Service(</div><div class="line">        auth,</div><div class="line">        option.get(<span class="string">&apos;endpoint&apos;</span>)</div><div class="line">    )</div><div class="line">    bucket = oss2.Bucket(</div><div class="line">        auth,</div><div class="line">        option.get(<span class="string">&apos;oss_url&apos;</span>),</div><div class="line">        option.get(<span class="string">&apos;bucketname&apos;</span>)</div><div class="line">    )</div><div class="line"><span class="keyword">return</span> (auth, service, bucket)</div></pre></td></tr></table></figure></p>
+<p>&#x8BA4;&#x8BC1;&#x8FC7;&#x540E;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x91CD;&#x5199;save&#x8FC7;&#x7A0B;&#x4E86;&#x3002;<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">_save</span><span class="params">(self, name, content)</span>:</span></div><div class="line">    self.bucket.put_object(</div><div class="line">        name,</div><div class="line">        content</div><div class="line">    )</div><div class="line">    <span class="keyword">return</span> name</div></pre></td></tr></table></figure></p>
+<p>&#x8FD9;&#x91CC;&#x6211;&#x4EEC;&#x4F7F;&#x7528;&#x7684;&#x662F;&#x963F;&#x91CC;&#x4E91;&#x7684;oss&#xFF0C;&#x5B83;&#x7684;save&#x5C31;&#x8FD9;&#x4E48;&#x7B80;&#x5355;&#x3002;&#x6587;&#x6863;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;google&#x963F;&#x91CC;&#x4E91;oss&#xFF01;&#x8FD9;&#x91CC;&#x5C31;&#x4E0D;&#x8D34;&#x51FA;&#x6765;&#x4E86;&#xFF01;<br>&#x54C8;&#x54C8;&#xFF0C;&#x8FD9;&#x91CC;&#x662F;&#x4E0D;&#x662F;&#x5F88;&#x7B80;&#x5355;&#xFF01;&#x5176;&#x5B9E;&#x7406;&#x89E3;&#x4E86;&#x5B83;&#x7684;&#x5404;&#x4E2A;&#x65B9;&#x6CD5;&#xFF0C;&#x771F;&#x7684;&#x5F88;&#x7B80;&#x5355;&#x2026;&#x2026;&#x2026;&#x2026;<br>&#x7EE7;&#x7EED;&#xFF0C;&#x7531;&#x4E8E;open&#x65B9;&#x6CD5;&#x662F;&#x6253;&#x5F00;&#x672C;&#x5730;&#x6587;&#x4EF6;&#x7CFB;&#x7EDF;&#x7684;&#x6587;&#x4EF6;&#xFF0C;&#x6211;&#x4EEC;&#x5C31;&#x4E0D;&#x91CD;&#x5199;&#x5B83;&#x4E86;&#x3002;<br>&#x5176;&#x4ED6;&#x7684;&#x65B9;&#x6CD5;&#x3002;&#x6587;&#x6863;&#x4E2D;&#x8BF4;&#x5230;&#xFF0C;delete()&#xFF0C;exists()&#xFF0C;listdir()&#xFF0C;size()&#xFF0C;url() &#x8FD9;&#x51E0;&#x4E2A;&#x65B9;&#x6CD5;&#x90FD;&#x9700;&#x8981;&#x88AB;&#x8986;&#x5199;&#xFF0C;&#x4E0D;&#x7136;&#x5C31;&#x4F1A;&#x629B;&#x51FA;NotImplementedError&#x5F02;&#x5E38;&#x3002;<br>&#x8FD9;&#x91CC;&#x6211;&#x4EEC;&#x901A;&#x8FC7;&#x6E90;&#x7801;&#x53EF;&#x4EE5;&#x89E3;&#x91CA;&#x4E00;&#x4E0B;&#xFF0C;&#x8FD9;&#x4E9B;&#x73A9;&#x610F;&#x5728;&#x5E72;&#x561B;&#x3002;</p>
+<ul>
+<li>delete&#x65B9;&#x6CD5;&#xFF1A;&#x987E;&#x540D;&#x601D;&#x4E49;&#xFF0C;&#x5C31;&#x662F;&#x5220;&#x9664;&#xFF0C;&#x6B64;&#x65B9;&#x6CD5;&#x88AB;&#x8C03;&#x7528;&#x65F6;&#xFF0C;&#x4ECE;storage&#x4E2D;&#x5220;&#x9664;&#x6587;&#x4EF6;</li>
+<li>exists&#x65B9;&#x6CD5;&#xFF1A;&#x989D;&#xFF0C;&#x8FD8;&#x662F;&#x987E;&#x540D;&#x601D;&#x4E49;&#xFF0C;&#x5C31;&#x662F;&#x5224;&#x65AD;&#x662F;&#x5426;&#x5B58;&#x5728;&#x8BE5;&#x6587;&#x4EF6;&#xFF0C;&#x8FD4;&#x56DE;&#x5E03;&#x5C14;&#x503C;</li>
+<li>listdir&#x65B9;&#x6CD5;&#xFF1A;&#x8FD4;&#x56DE;&#x6587;&#x4EF6;&#x5217;&#x8868;</li>
+<li>size&#x65B9;&#x6CD5;&#xFF1A;&#x8FD4;&#x56DE;&#x6587;&#x4EF6;&#x5927;&#x5C0F;</li>
+<li>url&#x65B9;&#x6CD5;&#xFF1A;&#x8FD9;&#x4E2A;&#x65B9;&#x6CD5;&#x9700;&#x8981;&#x63D0;&#x4E00;&#x4E0B;&#xFF0C;&#x6211;&#x5728;&#x4E4B;&#x524D;&#x91CD;&#x5199;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x76F4;&#x63A5;pass&#x4E86;&#xFF0C;&#x6240;&#x4EE5;&#xFF0C;&#x6211;&#x5728;&#x6253;&#x5F00;xadmin&#x65F6;&#xFF0C;&#x5C31;&#x4F1A;&#x4E00;&#x76F4;&#x62A5;&#x9519;&#xFF0C;&#x4E8E;&#x662F;&#x6211;&#x5C31;&#x627E;&#x4E86;&#x5F88;&#x4E45;&#x7684;&#x539F;&#x56E0;&#xFF0C;&#x6211;&#x5728;&#x8FD9;&#x4E2A;&#x51FD;&#x6570;&#x4E2D;&#x4E0B;&#x4E86;&#x65AD;&#x70B9;&#xFF0C;&#x6700;&#x540E;&#x53D1;&#x73B0;&#xFF0C;&#x8FD9;&#x4E2A;&#x51FD;&#x6570;&#x662F;&#x5FC5;&#x987B;&#x81EA;&#x5DF1;&#x91CD;&#x65B0;&#x5199;&#x7684;&#xFF08;&#x5982;&#x679C;&#x4F60;&#x7684;&#x6587;&#x4EF6;&#x662F;&#x9759;&#x6001;&#x6587;&#x4EF6;&#xFF0C;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;url&#x8BBF;&#x95EE;&#x7684;&#x8BDD;&#xFF09;&#x3002;&#x56E0;&#x4E3A;&#x5982;&#x679C;&#x4E0D;&#x91CD;&#x5199;&#x5B83;&#xFF0C;&#x8FD4;&#x56DE;&#x7684;&#x662F;&#x4E00;&#x4E2A;None&#xFF0C;&#x4E8E;&#x662F;&#x8BE5;&#x6587;&#x4EF6;&#x5C31;&#x6CA1;&#x6709;url&#x53EF;&#x4EE5;&#x8BBF;&#x95EE;&#xFF0C;&#x5728;&#x67D0;&#x4E9B;&#x9700;&#x8981;&#x5224;&#x65AD;&#x7684;&#x5730;&#x65B9;&#xFF0C;&#x4E5F;&#x4F1A;&#x62A5;&#x9519;&#xFF01;</li>
+</ul>
+<h2 id="&#x6700;&#x540E;"><a href="#&#x6700;&#x540E;" class="headerlink" title="&#x6700;&#x540E;"></a>&#x6700;&#x540E;</h2><p>&#x4E0D;&#x540C;&#x7684;&#x4E91;&#x670D;&#x52A1;&#x63D0;&#x4F9B;&#x5546;&#x7684;&#x4E0A;&#x4F20;&#x65B9;&#x5F0F;&#x53EF;&#x80FD;&#x4E0D;&#x4E00;&#x6837;&#xFF0C;&#x4F46;&#x662F;&#x539F;&#x7406;&#x90FD;&#x662F;&#x4E00;&#x6837;&#x7684;&#xFF0C;&#x91CD;&#x5199;save&#x65B9;&#x6CD5;&#xFF0C;&#x6539;&#x4E3A;&#x4E0A;&#x4F20;&#x5230;&#x4E91;&#x7AEF;&#xFF0C;&#x91CD;&#x5199;&#x9700;&#x8981;&#x4F7F;&#x7528;&#x7684;&#x65B9;&#x6CD5;&#x3002;&#x6700;&#x540E;collectstatic,compress&#x5373;&#x53EF;&#x3002;</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;最近遇到了这样的一个问题，由于某些原因，需要把静态文件放到cdn上，之前使用的是django默认的storage（FileSystemStorage）。于是这里需要自定义storage。&lt;br&gt;第一次写storage，过程中遇到一些坑，记录下来。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="django" scheme="http://hopperclouds.github.io/categories/django/"/>
+    
+    
+      <category term="django" scheme="http://hopperclouds.github.io/tags/django/"/>
+    
+      <category term="技术" scheme="http://hopperclouds.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>聘宝招聘Python实习生</title>
+    <link href="http://hopperclouds.github.io/2015/09/29/%E8%81%98%E5%AE%9D%E6%8B%9B%E8%81%98Python%E5%AE%9E%E4%B9%A0%E7%94%9F/"/>
+    <id>http://hopperclouds.github.io/2015/09/29/聘宝招聘Python实习生/</id>
+    <published>2015-09-29T02:51:04.000Z</published>
+    <updated>2016-08-09T03:12:44.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="&#x516C;&#x53F8;&#x60C5;&#x51B5;"><a href="#&#x516C;&#x53F8;&#x60C5;&#x51B5;" class="headerlink" title="&#x516C;&#x53F8;&#x60C5;&#x51B5;"></a>&#x516C;&#x53F8;&#x60C5;&#x51B5;</h1><p>&#x73B0;&#x5728;&#x4E3B;&#x8981;&#x505A;&#x7684;&#x4EA7;&#x54C1;&#x662F; <a href="http://www.pinbot.me/" target="_blank" rel="external">http://www.pinbot.me/</a> ,&#x5DF2;&#x7ECF;&#x62FF;&#x5230;A&#x8F6E;</p>
+<p>&#x5750;&#x6807;&#xFF1A;&#x56DB;&#x5DDD;&#x6210;&#x90FD;&#x9AD8;&#x65B0;&#x533A;&#x5E9C;&#x57CE;&#x5927;&#x9053;399&#x5929;&#x5E9C;&#x65B0;&#x8C37;9&#x53F7;&#x697C;&#x4E8C;&#x5355;&#x5143;1505&#x6210;&#x90FD;&#x6D69;&#x6CCA;&#x4E91;&#x52A8;&#x79D1;&#x6280;&#x6709;&#x9650;&#x516C;&#x53F8;</p>
+<a id="more"></a>
+<h1 id="&#x6211;&#x4EEC;&#x7684;&#x7814;&#x53D1;&#x56E2;&#x961F;&#x559C;&#x6B22;&#x4EC0;&#x4E48;"><a href="#&#x6211;&#x4EEC;&#x7684;&#x7814;&#x53D1;&#x56E2;&#x961F;&#x559C;&#x6B22;&#x4EC0;&#x4E48;" class="headerlink" title="&#x6211;&#x4EEC;&#x7684;&#x7814;&#x53D1;&#x56E2;&#x961F;&#x559C;&#x6B22;&#x4EC0;&#x4E48;"></a>&#x6211;&#x4EEC;&#x7684;&#x7814;&#x53D1;&#x56E2;&#x961F;&#x559C;&#x6B22;&#x4EC0;&#x4E48;</h1><ol>
+<li>K.I.S.S</li>
+<li>&#x654F;&#x6377;&#x5F00;&#x53D1;&#xFF0C;&#x5FEB;&#x901F;&#x539F;&#x578B;&#x548C;&#x5FC5;&#x8981;&#x7684;&#x5355;&#x5143;&#x6D4B;&#x8BD5;</li>
+<li>&#x4F7F;&#x7528;*nix</li>
+<li>&#x6709;&#x521B;&#x9020;&#x6027;&#x601D;&#x7EF4;&#xFF0C;&#x559C;&#x6B22;&#x521B;&#x9020;&#x7684;&#x4EBA;</li>
+<li>&#x51FD;&#x6570;&#x5F0F;&#x7F16;&#x7A0B;&#x548C;&#x5404;&#x79CD;&#x9AD8;&#x5E76;&#x53D1;&#x7684;&#x7F16;&#x7A0B;&#x8BED;&#x8A00;&#xFF08;Scheme&#x3001;Clojure&#x3001;Golang&#x3001;Elixir&#xFF09;</li>
+</ol>
+<h1 id="&#x4E3A;&#x4EC0;&#x4E48;&#x62DB;&#x5B9E;&#x4E60;&#x751F;"><a href="#&#x4E3A;&#x4EC0;&#x4E48;&#x62DB;&#x5B9E;&#x4E60;&#x751F;" class="headerlink" title="&#x4E3A;&#x4EC0;&#x4E48;&#x62DB;&#x5B9E;&#x4E60;&#x751F;"></a>&#x4E3A;&#x4EC0;&#x4E48;&#x62DB;&#x5B9E;&#x4E60;&#x751F;</h1><p>&#x6210;&#x90FD;Python&#x7684;&#x5708;&#x5B50;&#x672C;&#x6765;&#x5C31;&#x5C0F;&#xFF0C;&#x770B;&#x6765;&#x770B;&#x53BB;&#x5C31;&#x90A3;&#x4E48;&#x4E9B;&#x4EBA;&#xFF0C;&#x5927;&#x725B;&#x5B9E;&#x5728;&#x96BE;&#x641E;&#x5B9A;&#xFF0C;&#x6240;&#x4EE5;&#x5E0C;&#x671B;&#x627E;&#x5230;&#x4E00;&#x4E9B;&#x6709;&#x5174;&#x8DA3;&#x5F80;Python&#x65B9;&#x5411;&#x53D1;&#x5C55;&#x7684;&#x4EBA;&#xFF0C;&#x4E00;&#x8D77;&#x6210;&#x957F;&#x3002;</p>
+<h1 id="&#x5728;&#x8FD9;&#x91CC;&#x4F60;&#x80FD;&#x505A;&#x4EC0;&#x4E48;"><a href="#&#x5728;&#x8FD9;&#x91CC;&#x4F60;&#x80FD;&#x505A;&#x4EC0;&#x4E48;" class="headerlink" title="&#x5728;&#x8FD9;&#x91CC;&#x4F60;&#x80FD;&#x505A;&#x4EC0;&#x4E48;"></a>&#x5728;&#x8FD9;&#x91CC;&#x4F60;&#x80FD;&#x505A;&#x4EC0;&#x4E48;</h1><ol>
+<li>&#x4E86;&#x89E3;&#x5230;Python Web&#x5F00;&#x53D1;&#x5E38;&#x7528;&#x7684;&#x5DE5;&#x5177;&#x548C;&#x6D41;&#x7A0B;&#x89C4;&#x8303;</li>
+<li>&#x505A;&#x4E00;&#x4E9B;&#x771F;&#x6B63;&#x6709;&#x4EBA;&#x4F7F;&#x7528;&#x7684;&#x4EA7;&#x54C1;</li>
+<li>&#x4E00;&#x8D77;&#x5EFA;&#x8BBE;&#x56E2;&#x961F;&#xFF0C;&#x7ED9;&#x56E2;&#x961F;&#x5E26;&#x6765;&#x66F4;&#x9AD8;&#x6548;&#x7684;&#x6D41;&#x7A0B;&#x548C;&#x5DE5;&#x5177;</li>
+<li>&#x505A;&#x81EA;&#x5DF1;&#x60F3;&#x505A;&#x7684;&#x4EA7;&#x54C1;&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x6709;&#x597D;&#x7684;&#x521B;&#x610F;&#x90FD;&#x53EF;&#x4EE5;&#x8DDF;&#x6211;&#x4EEC;&#x4EA7;&#x54C1;&#x7ECF;&#x7406;&#x6C9F;&#x901A;&#xFF0C;&#x5C06;&#x521B;&#x610F;&#x5B9E;&#x73B0;&#x5230;&#x4EA7;&#x54C1;&#x4E2D;</li>
+</ol>
+<h1 id="&#x6211;&#x4EEC;&#x80FD;&#x63D0;&#x4F9B;&#x4EC0;&#x4E48;"><a href="#&#x6211;&#x4EEC;&#x80FD;&#x63D0;&#x4F9B;&#x4EC0;&#x4E48;" class="headerlink" title="&#x6211;&#x4EEC;&#x80FD;&#x63D0;&#x4F9B;&#x4EC0;&#x4E48;"></a>&#x6211;&#x4EEC;&#x80FD;&#x63D0;&#x4F9B;&#x4EC0;&#x4E48;</h1><ol>
+<li>Mac&#x548C;&#x53CC;&#x663E;&#x662F;&#x6211;&#x4EEC;&#x65E5;&#x5E38;&#x7684;&#x5F00;&#x53D1;&#x5DE5;&#x5177;</li>
+<li>&#x6BCF;&#x5468;&#x514D;&#x8D39;&#x7684;&#x96F6;&#x98DF;</li>
+<li>&#x6280;&#x672F;&#x5206;&#x4EAB;</li>
+<li>&#x6BCF;&#x6708;&#x4E00;&#x6B21;&#x7684;Hack Day</li>
+<li>&#x59B9;&#x5B50;&#x90FD;&#x662F;&#x5973;&#x795E;&#x7EA7;&#x522B;&#x7684;&#xFF0C;&#x517B;&#x773C;&#x63D0;&#x9AD8;&#x5DE5;&#x4F5C;&#x6548;&#x7387;</li>
+</ol>
+<h1 id="&#x5DE5;&#x4F5C;&#x63CF;&#x8FF0;"><a href="#&#x5DE5;&#x4F5C;&#x63CF;&#x8FF0;" class="headerlink" title="&#x5DE5;&#x4F5C;&#x63CF;&#x8FF0;"></a>&#x5DE5;&#x4F5C;&#x63CF;&#x8FF0;</h1><ol>
+<li>&#x8D1F;&#x8D23;<a href="http://www.pinbot.me/" target="_blank" rel="external">http://www.pinbot.me/</a> &#x7F51;&#x7AD9;&#x65B0;&#x529F;&#x80FD;&#x7684;&#x5F00;&#x53D1;&#x548C;&#x65E5;&#x5E38;&#x7EF4;&#x62A4;</li>
+<li>&#x8D1F;&#x8D23;&#x5185;&#x90E8;CRM&#x7BA1;&#x7406;&#x7CFB;&#x7EDF;&#x7684;&#x5F00;&#x53D1;&#x7EF4;&#x62A4;</li>
+</ol>
+<h1 id="&#x6280;&#x80FD;&#x8981;&#x6C42;"><a href="#&#x6280;&#x80FD;&#x8981;&#x6C42;" class="headerlink" title="&#x6280;&#x80FD;&#x8981;&#x6C42;"></a>&#x6280;&#x80FD;&#x8981;&#x6C42;</h1><pre><code># coding: utf-8
+
+&quot;&quot;&quot;
+&#x5BF9;&#x4EE5;&#x4E0B;&#x6280;&#x672F;&#x719F;&#x6089;&#x6216;&#x8005;&#x6709;&#x5F3A;&#x70C8;&#x5174;&#x8DA3;
+&quot;&quot;&quot;
+
+# &#x57FA;&#x672C;&#x6280;&#x80FD;
+BASIC_SKILL = [
+    &apos;*nix&apos;,
+    &apos;Vim or Emacs&apos;,
+    &apos;Git&apos;,
+    &apos;Unix&#x54F2;&#x5B66;&apos;,
+    &apos;&#x57FA;&#x7840;&#x7B97;&#x6CD5;&#x548C;&#x6570;&#x636E;&#x7ED3;&#x6784;&apos;,
+    &apos;&#x8BA1;&#x7B97;&#x673A;&#x7EC4;&#x6210;&#x539F;&#x7406;&apos;,
+    &apos;&#x7F51;&#x8DEF;&#x534F;&#x8BAE;&apos;,
+]
+
+# &#x540E;&#x7AEF;&#x6280;&#x80FD;
+BACKEND_SKILL = [
+    &apos;Python&apos;,
+    &apos;Django&apos;,
+    &apos;Python&#x5E38;&#x7528;&#x5E93;&apos;,
+    &apos;&#x4E86;&#x89E3;Http &#x534F;&#x8BAE;&apos;,
+    &apos;NodeJS&apos;,
+]
+
+# &#x524D;&#x7AEF;&#x6280;&#x80FD;
+FRONTEND_SKILL = [
+    &apos;HTML&apos;,
+    &apos;CSS&apos;,
+    &apos;JS&apos;,
+    &apos;AngularJS&apos;,
+    &apos;React&apos;,
+    &apos;JQuery&apos;,
+]
+
+# &#x8FD0;&#x7EF4;
+MAINTAIN_SKILL = [
+    &apos;bash&apos;,
+    &apos;Docker&apos;,
+    &apos;Fabric&apos;,
+    &apos;Ansible&apos;,
+    &apos;SaltStack&apos;,
+]
+
+# &#x6570;&#x636E;&#x5E93;
+DATABASE = [
+    &apos;MySQL&apos;,
+    &apos;Mongo&apos;,
+]
+
+ALL_SKILL = set(i.lower() for i in (BASIC_SKILL + BACKEND_SKILL + FRONTEND_SKILL + MAINTAIN_SKILL + DATABASE))
+
+def i_want_you(your_skill):
+    &quot;&quot;&quot;
+    &#x7B26;&#x5408;&#x4EE5;&#x4E0A;&#x4EFB;&#x610F;&#x5173;&#x952E;&#x8BCD;&#x5C31;&#x53EF;&#x4EE5;&#x4E86;
+    &#x540E;&#x7EED;&#x53EF;&#x4EE5;&#x8BA9;&#x6211;&#x4EEC;&#x7684;&#x7B97;&#x6CD5;&#x5DE5;&#x7A0B;&#x5E08;&#x6765;&#x505A;&#x4E00;&#x4E2A;&#x6D4B;&#x8BD5;&#x7A0B;&#x5E8F;
+
+    &gt;&gt;&gt; i_want_you(&apos;Python HTML Docker MySQL&apos;)
+    I want you
+
+    &gt;&gt;&gt; i_want_you(&apos;java&apos;)
+    hehe
+    &quot;&quot;&quot;
+    your_skill = [i.lower() for i in your_skill.split()]
+    print &apos;I want you&apos; if set(your_skill).intersection(ALL_SKILL) else &apos;hehe&apos;
+
+
+if __name__ == &apos;__main__&apos;:
+    your_skill = raw_input(&apos;Input your skill: &apos;)
+    i_want_you(your_skill)
+</code></pre><h1 id="&#x8865;&#x5145;"><a href="#&#x8865;&#x5145;" class="headerlink" title="&#x8865;&#x5145;"></a>&#x8865;&#x5145;</h1><ol>
+<li>&#x6709;github&#x6216;&#x8005;bitbucket&#x7B49;&#x5F00;&#x6E90;&#x793E;&#x533A;&#x8D26;&#x53F7;&#x4F18;&#x5148;</li>
+<li>&#x6709;&#x81EA;&#x5DF1;&#x535A;&#x5BA2;&#x7684;&#x4F18;&#x5148;</li>
+</ol>
+<h1 id="&#x8054;&#x7CFB;&#x6211;"><a href="#&#x8054;&#x7CFB;&#x6211;" class="headerlink" title="&#x8054;&#x7CFB;&#x6211;"></a>&#x8054;&#x7CFB;&#x6211;</h1><p>&#x7B80;&#x5386;&#x8BF7;&#x6295;&#x81F3;&#xFF1A;dengyu@hopperclouds.com</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;公司情况&quot;&gt;&lt;a href=&quot;#公司情况&quot; class=&quot;headerlink&quot; title=&quot;公司情况&quot;&gt;&lt;/a&gt;公司情况&lt;/h1&gt;&lt;p&gt;现在主要做的产品是 &lt;a href=&quot;http://www.pinbot.me/&quot;&gt;http://www.pinbot.me/&lt;/a&gt; ,已经拿到A轮&lt;/p&gt;
+&lt;p&gt;坐标：四川成都高新区府城大道399天府新谷9号楼二单元1505成都浩泊云动科技有限公司&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="招聘" scheme="http://hopperclouds.github.io/categories/%E6%8B%9B%E8%81%98/"/>
+    
+    
+      <category term="招聘" scheme="http://hopperclouds.github.io/tags/%E6%8B%9B%E8%81%98/"/>
+    
+      <category term="Python" scheme="http://hopperclouds.github.io/tags/Python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>聘宝研发团队必备技能</title>
+    <link href="http://hopperclouds.github.io/2015/09/24/%E8%81%98%E5%AE%9D%E7%A0%94%E5%8F%91%E5%9B%A2%E9%98%9F%E5%BF%85%E5%A4%87%E6%8A%80%E8%83%BD/"/>
+    <id>http://hopperclouds.github.io/2015/09/24/聘宝研发团队必备技能/</id>
+    <published>2015-09-24T08:09:24.000Z</published>
+    <updated>2016-08-09T03:12:44.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="&#x7B80;&#x4ECB;"><a href="#&#x7B80;&#x4ECB;" class="headerlink" title="&#x7B80;&#x4ECB;"></a>&#x7B80;&#x4ECB;</h1><p><a href="http://www.pinbot.me" target="_blank" rel="external">&#x8058;&#x5B9D;(www.pinbot.me)</a> &#x7ACB;&#x5FD7;&#x505A;&#x65B0;&#x4E00;&#x4EE3;&#x7684;&#x667A;&#x80FD;&#x730E;&#x5934;&#xFF0C;&#x8BA9;&#x4F01;&#x4E1A;&#x62DB;&#x8058;&#x53D8;&#x5F97;&#x66F4;&#x7B80;&#x5355;&#xFF0C;&#x6211;&#x4EEC;&#x5D07;&#x5C1A;&#x654F;&#x6377;&#xFF0C;&#x5D07;&#x5C1A;&#x5F00;&#x6E90;&#xFF0C;&#x5D07;&#x5C1A;K.I.S.S</p>
+<a id="more"></a>
+<h1 id="web&#x7814;&#x53D1;&#x56E2;&#x961F;&#x5FC5;&#x5907;&#x6280;&#x80FD;"><a href="#Web&#x7814;&#x53D1;&#x56E2;&#x961F;&#x5FC5;&#x5907;&#x6280;&#x80FD;" class="headerlink" title="Web&#x7814;&#x53D1;&#x56E2;&#x961F;&#x5FC5;&#x5907;&#x6280;&#x80FD;"></a>Web&#x7814;&#x53D1;&#x56E2;&#x961F;&#x5FC5;&#x5907;&#x6280;&#x80FD;</h1><h2 id="&#x540E;&#x7AEF;&#x6280;&#x672F;"><a href="#&#x540E;&#x7AEF;&#x6280;&#x672F;" class="headerlink" title="&#x540E;&#x7AEF;&#x6280;&#x672F;"></a>&#x540E;&#x7AEF;&#x6280;&#x672F;</h2><pre><code>Python (&#x6211;&#x4EEC;&#x4E3B;&#x8981;&#x4F7F;&#x7528;&#x7684;&#x540E;&#x7AEF;&#x8BED;&#x8A00;)
+Django (&#x6211;&#x4EEC;&#x6B63;&#x5728;&#x4F7F;&#x7528;&#x7684;&#x6846;&#x67B6;)
+Python&#x5E38;&#x7528;&#x5E93;(celery, requests, json, bs4...)
+HTTP&#x534F;&#x8BAE; (&#x8FD9;&#x4E2A;&#x5FC5;&#x987B;&#x4F1A;)
+Unit Test (&#x77E5;&#x9053;&#x4EC0;&#x4E48;&#x5730;&#x65B9;&#x8981;&#x6709;&#x6D4B;&#x8BD5;)
+</code></pre><h2 id="&#x524D;&#x7AEF;&#x6280;&#x672F;"><a href="#&#x524D;&#x7AEF;&#x6280;&#x672F;" class="headerlink" title="&#x524D;&#x7AEF;&#x6280;&#x672F;"></a>&#x524D;&#x7AEF;&#x6280;&#x672F;</h2><pre><code>HTML
+Javascript (Node&#x662F;&#x4E00;&#x4E2A;&#x8D8B;&#x52BF;&#xFF0C;&#x6240;&#x4EE5;&#x5FC5;&#x987B;&#x4F1A;)
+CSS
+Angular.js
+React.js
+</code></pre><h2 id="&#x6570;&#x636E;&#x5E93;"><a href="#&#x6570;&#x636E;&#x5E93;" class="headerlink" title="&#x6570;&#x636E;&#x5E93;"></a>&#x6570;&#x636E;&#x5E93;</h2><pre><code>Mysql
+Mongo
+Redis
+&#x660E;&#x786E;&#x77E5;&#x9053;&#x4E0D;&#x540C;&#x7C7B;&#x578B;&#x6570;&#x636E;&#x5E93;&#x7684;&#x5E94;&#x7528;&#x573A;&#x666F;&#xFF0C;&#x4E86;&#x89E3;&#x6570;&#x636E;&#x7684;&#x8BBE;&#x8BA1;&#x8303;&#x5F0F;&#x548C;&#x8C03;&#x4F18;
+</code></pre><h2 id="&#x6D88;&#x606F;&#x961F;&#x5217;"><a href="#&#x6D88;&#x606F;&#x961F;&#x5217;" class="headerlink" title="&#x6D88;&#x606F;&#x961F;&#x5217;"></a>&#x6D88;&#x606F;&#x961F;&#x5217;</h2><pre><code>RabbitMQ
+</code></pre><h2 id="&#x8FD0;&#x7EF4;&#x76F8;&#x5173;"><a href="#&#x8FD0;&#x7EF4;&#x76F8;&#x5173;" class="headerlink" title="&#x8FD0;&#x7EF4;&#x76F8;&#x5173;"></a>&#x8FD0;&#x7EF4;&#x76F8;&#x5173;</h2><pre><code>Docker (&#x5F88;&#x591A;&#x4E1C;&#x897F;&#x6B63;&#x5728;&#x5C1D;&#x8BD5;&#x7528;docker&#x53BB;&#x5B8C;&#x6210;&#xFF0C;&#x786E;&#x5B9E;&#x5F88;&#x65B9;&#x4FBF;)
+Ansible (&#x670D;&#x52A1;&#x5668;&#x914D;&#x7F6E;&#x7BA1;&#x7406;)
+</code></pre><h2 id="&#x5F00;&#x53D1;&#x73AF;&#x5883;"><a href="#&#x5F00;&#x53D1;&#x73AF;&#x5883;" class="headerlink" title="&#x5F00;&#x53D1;&#x73AF;&#x5883;"></a>&#x5F00;&#x53D1;&#x73AF;&#x5883;</h2><pre><code>*nix (&#x5FC5;&#x987B;&#x4F1A;&#xFF0C;&#x4E0D;&#x559C;&#x6B22;windows)
+VIM (&#x8FD0;&#x7EF4;&#x8981;&#x7528;&#xFF0C;&#x5FC5;&#x987B;&#x4F1A;)
+Emacs (&#x770B;&#x4E2A;&#x4EBA;&#x7231;&#x597D;)
+Git&#x53CA;Git&#x5F00;&#x53D1;&#x6D41;&#x7A0B; (&#x5FC5;&#x987B;&#x4F1A;)
+</code></pre><h2 id="&#x6587;&#x6863;"><a href="#&#x6587;&#x6863;" class="headerlink" title="&#x6587;&#x6863;"></a>&#x6587;&#x6863;</h2><pre><code>markdown
+rst
+</code></pre><h2 id="&#x804C;&#x4E1A;&#x7D20;&#x517B;"><a href="#&#x804C;&#x4E1A;&#x7D20;&#x517B;" class="headerlink" title="&#x804C;&#x4E1A;&#x7D20;&#x517B;"></a>&#x804C;&#x4E1A;&#x7D20;&#x517B;</h2><pre><code>1. &#x72EC;&#x7ACB;&#x601D;&#x8003;&#xFF0C;&#x597D;&#x5B66;
+2. &#x6C9F;&#x901A;&#x80FD;&#x529B;&#x5F3A;
+3. &#x4E86;&#x89E3;Python&#x54F2;&#x5B66;
+4. &#x8BFB;&#x8FC7;&#x7A0B;&#x5E8F;&#x5458;&#x4FEE;&#x70BC;&#x4E4B;&#x9053;&#x548C;&#x4EE3;&#x7801;&#x6574;&#x6D01;&#x4E4B;&#x9053;&#x7B49;&#x5FC5;&#x8BFB;&#x4E66;&#x7C4D;
+5. &#x5BF9;&#x7A0B;&#x5E8F;&#x8BBE;&#x8BA1;&#x6709;&#x81EA;&#x5DF1;&#x7684;&#x8FFD;&#x6C42;
+6. &#x4E86;&#x89E3;&#x8F6F;&#x4EF6;&#x5DE5;&#x7A0B;&#x7684;&#x601D;&#x60F3;
+</code></pre><h2 id="&#x63A8;&#x8350;&#x6280;&#x672F;"><a href="#&#x63A8;&#x8350;&#x6280;&#x672F;" class="headerlink" title="&#x63A8;&#x8350;&#x6280;&#x672F;"></a>&#x63A8;&#x8350;&#x6280;&#x672F;</h2><pre><code>Golang&#x3001;Clojure(&#x5E76;&#x53D1;&#x662F;&#x4EE5;&#x540E;&#x7684;&#x8D8B;&#x52BF;)
+&#x51FD;&#x6570;&#x5F0F;&#x7F16;&#x7A0B;&#x8BED;&#x8A00;&#xFF08;&#x53EF;&#x80FD;&#x4E5F;&#x662F;&#x4EE5;&#x540E;&#x7684;&#x8D8B;&#x52BF;&#xFF09;
+elixir (&#x8058;&#x5B9D;&#x4F1A;&#x8003;&#x8651;&#x7528;&#x5B83;&#x505A;&#x4E1C;&#x897F;)
+</code></pre><h1 id="&#x603B;&#x7ED3;"><a href="#&#x603B;&#x7ED3;" class="headerlink" title="&#x603B;&#x7ED3;"></a>&#x603B;&#x7ED3;</h1><p>&#x8FD9;&#x4E2A;&#x662F;&#x6211;&#x4EEC;&#x56E2;&#x961F;&#x7684;&#x540E;&#x7AEF;&#x5FC5;&#x5907;&#x6280;&#x80FD;&#xFF0C;&#x6B22;&#x8FCE;&#x5927;&#x5BB6;&#x5728;&#x8BC4;&#x8BBA;&#x4E2D;&#x8865;&#x5145;</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;简介&quot;&gt;&lt;a href=&quot;#简介&quot; class=&quot;headerlink&quot; title=&quot;简介&quot;&gt;&lt;/a&gt;简介&lt;/h1&gt;&lt;p&gt;&lt;a href=&quot;http://www.pinbot.me&quot;&gt;聘宝(www.pinbot.me)&lt;/a&gt; 立志做新一代的智能猎头，让企业招聘变得更简单，我们崇尚敏捷，崇尚开源，崇尚K.I.S.S&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="技术" scheme="http://hopperclouds.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="Python" scheme="http://hopperclouds.github.io/tags/Python/"/>
+    
+      <category term="javascript" scheme="http://hopperclouds.github.io/tags/javascript/"/>
+    
+      <category term="运维" scheme="http://hopperclouds.github.io/tags/%E8%BF%90%E7%BB%B4/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>使用Hexo作为博客</title>
+    <link href="http://hopperclouds.github.io/2015/09/24/%E4%BD%BF%E7%94%A8Hexo%E4%BD%9C%E4%B8%BA%E5%8D%9A%E5%AE%A2/"/>
+    <id>http://hopperclouds.github.io/2015/09/24/使用Hexo作为博客/</id>
+    <published>2015-09-24T07:29:25.000Z</published>
+    <updated>2016-08-09T03:12:44.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="&#x5B89;&#x88C5;&#x548C;&#x90E8;&#x7F72;&#x8BF7;&#x53C2;&#x8003;&#x4E0B;&#x9762;&#x6216;&#x81EA;&#x884C;google"><a href="#&#x5B89;&#x88C5;&#x548C;&#x90E8;&#x7F72;&#x8BF7;&#x53C2;&#x8003;&#x4E0B;&#x9762;&#x6216;&#x81EA;&#x884C;google" class="headerlink" title="&#x5B89;&#x88C5;&#x548C;&#x90E8;&#x7F72;&#x8BF7;&#x53C2;&#x8003;&#x4E0B;&#x9762;&#x6216;&#x81EA;&#x884C;google"></a>&#x5B89;&#x88C5;&#x548C;&#x90E8;&#x7F72;&#x8BF7;&#x53C2;&#x8003;&#x4E0B;&#x9762;&#x6216;&#x81EA;&#x884C;google</h2><ol>
+<li><a href="https://hexo.io/" target="_blank" rel="external">&#x5B98;&#x7F51;</a></li>
+<li><a href="http://wsgzao.github.io/post/hexo-guide/" target="_blank" rel="external">http://wsgzao.github.io/post/hexo-guide/</a></li>
+</ol>
+<a id="more"></a>
+<h2 id="&#x57FA;&#x672C;&#x4F7F;&#x7528;"><a href="#&#x57FA;&#x672C;&#x4F7F;&#x7528;" class="headerlink" title="&#x57FA;&#x672C;&#x4F7F;&#x7528;"></a>&#x57FA;&#x672C;&#x4F7F;&#x7528;</h2><h3 id="&#x51C6;&#x5907;"><a href="#&#x51C6;&#x5907;" class="headerlink" title="&#x51C6;&#x5907;"></a>&#x51C6;&#x5907;</h3><pre><code># &#x5B89;&#x88C5;node &#x548C; cnpm
+brew install node
+npm install cnpm -g
+
+# &#x5C06;&#x9879;&#x76EE;clone &#x4E0B;&#x6765;
+git clone git@github.com:HopperClouds/hopperclouds.github.io.git
+
+# &#x5B89;&#x88C5;hexo &#x4F9D;&#x8D56;&#x7684;node&#x5E93;
+cnpm install
+
+# &#x9047;&#x5230;&#x95EE;&#x9898;
+# { [Error: Cannot find module &apos;./build/Release/DTraceProviderBindings&apos; ] code: &apos;MODULE_NOT_FOUND&apos;  }
+# { [Error: Cannot find module &apos;./build/default/DTraceProviderBindings&apos; ] code: &apos;MODULE_NOT_FOUND&apos;  }
+# { [Error: Cannot find module &apos;./build/Debug/DTraceProviderBindings&apos; ] code: &apos;MODULE_NOT_FOUND&apos;  }
+# &#x4F7F;&#x7528;
+cnpm install --no-optional
+</code></pre><h3 id="&#x5F00;&#x59CB;&#x5199;&#x6587;&#x7AE0;"><a href="#&#x5F00;&#x59CB;&#x5199;&#x6587;&#x7AE0;" class="headerlink" title="&#x5F00;&#x59CB;&#x5199;&#x6587;&#x7AE0;"></a>&#x5F00;&#x59CB;&#x5199;&#x6587;&#x7AE0;</h3><pre><code>hexo new &quot;your title&quot;
+
+# &#x5728;source/_posts/your\ title.md &#x6587;&#x4EF6;
+# &#x5728;&#x91CC;&#x9762;&#x4F7F;&#x7528;markdown&#x7F16;&#x8F91;&#x535A;&#x5BA2;
+
+# &#x751F;&#x6210;&#x6587;&#x4EF6;&#x683C;&#x5F0F;
+title: &#x4F7F;&#x7528;Hexo&#x4F5C;&#x4E3A;&#x535A;&#x5BA2;
+date: 2015-09-24 15:29:25
+# &#x7C7B;&#x522B;
+categories:
+  - &#x5176;&#x4ED6;
+# &#x6807;&#x7B7E;
+tags:
+  - &#x5176;&#x4ED6;
+  - &#x5F00;&#x59CB;
+---
+markdown&#x683C;&#x5F0F;&#x6B63;&#x6587;&#x5185;&#x5BB9;
+</code></pre><h3 id="&#x751F;&#x6210;&#x6587;&#x7AE0;"><a href="#&#x751F;&#x6210;&#x6587;&#x7AE0;" class="headerlink" title="&#x751F;&#x6210;&#x6587;&#x7AE0;"></a>&#x751F;&#x6210;&#x6587;&#x7AE0;</h3><pre><code>hexo generate
+
+# &#x4F7F;&#x7528;--watch &#x53C2;&#x6570;&#x68C0;&#x6D4B;&#x6587;&#x4EF6;&#x66F4;&#x65B0;
+hexo generate --watch
+</code></pre><h3 id="&#x9884;&#x89C8;"><a href="#&#x9884;&#x89C8;" class="headerlink" title="&#x9884;&#x89C8;"></a>&#x9884;&#x89C8;</h3><pre><code>hexo server
+</code></pre><h3 id="&#x53D1;&#x5E03;"><a href="#&#x53D1;&#x5E03;" class="headerlink" title="&#x53D1;&#x5E03;"></a>&#x53D1;&#x5E03;</h3><pre><code>hexo deploy
+</code></pre><h3 id="&#x5C06;markdown&#x6E90;&#x7801;push&#x5230;source&#x5206;&#x652F;"><a href="#&#x5C06;markdown&#x6E90;&#x7801;push&#x5230;source&#x5206;&#x652F;" class="headerlink" title="&#x5C06;markdown&#x6E90;&#x7801;push&#x5230;source&#x5206;&#x652F;"></a>&#x5C06;markdown&#x6E90;&#x7801;push&#x5230;source&#x5206;&#x652F;</h3><pre><code>git push origin master:source
+</code></pre><h2 id="&#x603B;&#x7ED3;"><a href="#&#x603B;&#x7ED3;" class="headerlink" title="&#x603B;&#x7ED3;"></a>&#x603B;&#x7ED3;</h2><p>&#x9759;&#x6001;&#x535A;&#x5BA2;&#x624D;&#x662F;&#x5199;&#x535A;&#x5BA2;&#x7684;&#x6B63;&#x786E;&#x59FF;&#x52BF;</p>
+<p>&#x521D;&#x6B21;&#x4F7F;&#x7528;&#x89C9;&#x5F97;&#x4E0D;&#x50CF;<a href="http://octopress.org/" target="_blank" rel="external">octopress</a> &#x90A3;&#x6837;&#x5B8C;&#x5584;&#xFF0C;&#x81F3;&#x4E8E;&#x4E3A;&#x4EC0;&#x4E48;&#x4E0D;&#x7528;octopress, &#x662F;&#x56E0;&#x4E3A;&#x6211;&#x4EEC;&#x662F;&#x4F7F;&#x7528;Python&#x548C;JS&#x7684;&#x56E2;&#x961F;&#xFF0C;Node&#x5BF9;&#x6211;&#x4EEC;&#x6765;&#x8BF4;&#x66F4;&#x53CB;&#x597D;&#x4E00;&#x4E9B;&#x3002;</p>
+<p>&#x5BF9;&#x4E8E;&#x4F7F;&#x7528;Emacs&#x7684;&#x7528;&#x6237;&#x8FD8;&#x6CA1;&#x6709;org mode&#x652F;&#x6301;&#xFF0C;&#x53EF;&#x4EE5;hack&#x4E00;&#x4E0B;&#x4E86;&#x3002;</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;安装和部署请参考下面或自行google&quot;&gt;&lt;a href=&quot;#安装和部署请参考下面或自行google&quot; class=&quot;headerlink&quot; title=&quot;安装和部署请参考下面或自行google&quot;&gt;&lt;/a&gt;安装和部署请参考下面或自行google&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;&lt;a href=&quot;https://hexo.io/&quot;&gt;官网&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://wsgzao.github.io/post/hexo-guide/&quot;&gt;http://wsgzao.github.io/post/hexo-guide/&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+    
+    </summary>
+    
+      <category term="其他" scheme="http://hopperclouds.github.io/categories/%E5%85%B6%E4%BB%96/"/>
+    
+    
+      <category term="其他" scheme="http://hopperclouds.github.io/tags/%E5%85%B6%E4%BB%96/"/>
+    
+      <category term="开始" scheme="http://hopperclouds.github.io/tags/%E5%BC%80%E5%A7%8B/"/>
+    
+  </entry>
+  
+</feed>
