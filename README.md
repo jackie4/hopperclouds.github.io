@@ -76,3 +76,37 @@ npm install hexo-browsersync --save
       </script>
     <!-- 多说公共JS代码 end -->
 ```
+
+
+## 发布流程
+
+#### clone项目
+```
+git clone git@github.com:HopperClouds/hopperclouds.github.io.git -b source --depth=1
+```
+
+#### 安装hexo
+```
+npm install hexo -g
+```
+
+#### 添加文章
+复制markdown格式的文章到 **source/_posts** 目录下, 可以参考该目录下的其它文档在文档头部添加一些说明信息。
+
+#### 发布文章到线上
+```
+hexo deploy
+```
+
+#### 可选
+##### 安装本地运行环境
+```
+npm install
+```
+
+##### 本地运行
+```
+hexo server
+```
+
+
