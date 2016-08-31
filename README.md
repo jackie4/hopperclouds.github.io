@@ -91,14 +91,22 @@ npm install hexo -g
 ```
 
 #### 添加文章
-复制markdown格式的文章到 **source/_posts** 目录下, 可以参考该目录下的其它文档在文档头部添加一些说明信息。
+复制markdown格式的文章到 **source/_posts** 目录下, 可以参考该目录下的其它文档在文档头部添加一些说明信息
 
 #### 发布文章到线上
 ```
 hexo deploy
 ```
 
-#### 可选
+#### 其它(可选)
+
+##### 安装指定主题
+
+可参考上面关于submodule的部分或者直接运行:
+```
+cd themes && git submodule update --init --recursive --depth=1
+```
+
 ##### 安装本地运行环境
 ```
 npm install
@@ -108,5 +116,10 @@ npm install
 ```
 hexo server
 ```
+
+##### 使用图片粘贴上传服务
+
+访问[img.pinbot.me:8080](http://img.pinbot.me:8080/)
+
 
 
