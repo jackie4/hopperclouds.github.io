@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://hopperclouds.github.io/"/>
-  <updated>2016-08-09T03:12:44.000Z</updated>
+  <updated>2016-08-31T09:05:52.000Z</updated>
   <id>http://hopperclouds.github.io/</id>
   
   <author>
@@ -14,6 +14,109 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>从__str__说开去</title>
+    <link href="http://hopperclouds.github.io/2016/08/31/%E4%BB%8E__str__%E8%AF%B4%E5%BC%80%E5%8E%BB/"/>
+    <id>http://hopperclouds.github.io/2016/08/31/从__str__说开去/</id>
+    <published>2016-08-31T08:00:00.000Z</published>
+    <updated>2016-08-31T09:05:52.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="__str__-&#x548C;-__repr__"><a href="#str-&#x548C;-repr" class="headerlink" title="__str__ &#x548C; __repr__"></a>__str__ &#x548C; __repr__</h2><h3 id="&#x4ECB;&#x7ECD;"><a href="#&#x4ECB;&#x7ECD;" class="headerlink" title="&#x4ECB;&#x7ECD;"></a>&#x4ECB;&#x7ECD;</h3><p><a href="https://docs.python.org/2/reference/datamodel.html#object.__str__" target="_blank" rel="external"><code>object.__str__</code></a>&#x662F;python&#x4E2D;&#x4E00;&#x4E2A;&#x5E38;&#x89C1;&#x7684;&#x7279;&#x6B8A;&#x65B9;&#x6CD5;, &#x4F1A;&#x88AB;&#x5185;&#x7F6E;&#x51FD;&#x6570;&#x88AB; <code>str</code> &#x548C; <code>print</code> &#x8C03;&#x7528;&#x3002;<br>&#x5E38;&#x5E38;&#x4E0E;&#x5B83;&#x4E00;&#x8D77;&#x51FA;&#x73B0;&#x7684;&#x8FD8;&#x6709;<a href="https://docs.python.org/2/reference/datamodel.html#object.__repr__" target="_blank" rel="external"><code>object.__repr__</code></a>, &#x7C7B;&#x4F3C;&#x5730;, &#x5B83;&#x4F1A;&#x88AB;&#x5185;&#x7F6E;&#x51FD;&#x6570; <code>repr</code> &#x8C03;&#x7528;&#x3002;</p>
+<h3 id="&#x533A;&#x522B;"><a href="#&#x533A;&#x522B;" class="headerlink" title="&#x533A;&#x522B;"></a>&#x533A;&#x522B;</h3><p>&#x90A3;&#x4E48; <code>str</code> &#x548C; <code>repr</code> &#x540C;&#x6837;&#x4F5C;&#x4E3A;&#x201D;informal string representation of instances&#x201D;, &#x6709;&#x4F55;&#x533A;&#x522B;?</p>
+<p>&#x7528;&#x4E00;&#x53E5;&#x8BDD;&#x6982;&#x62EC;&#x5C31;&#x662F;:</p>
+<blockquote>
+<p>repr is for developers, str is for customers.</p>
+</blockquote>
+<p>&#x8FD9;&#x70B9;&#x5728;IDE&#x4E2D;&#x8C03;&#x8BD5;&#x65F6;&#x5F97;&#x4EE5;&#x5C55;&#x73B0;:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span><span class="params">(object)</span>:</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name, grade)</span>:</span></div><div class="line">        self.name = name</div><div class="line">        self.grade = grade</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">return</span> <span class="string">&apos;{0}({1})&apos;</span>.format(self.name, self.grade)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__repr__</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">return</span> <span class="string">&apos;&lt;Student&gt;&apos;</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">&apos;__main__&apos;</span>:</div><div class="line">    student = Student(name=<span class="string">&apos;Roy&apos;</span>, grade=<span class="number">11</span>)</div></pre></td></tr></table></figure>
+<p>&#x5728;debug&#x6A21;&#x5F0F;&#x4E0B;, pycharm&#x5C06; <code>student</code> &#x5C55;&#x793A;&#x4E3A;:</p>
+<p><img src="http://img.pinbot.me:8080/uploads/2016/8/31/blob_1472628279443.png" alt=""></p>
+<p>&#x7B80;&#x6D01;&#x660E;&#x4E86;&#x3002;</p>
+<h2 id="__unicode__"><a href="#unicode" class="headerlink" title="__unicode__"></a>__unicode__</h2><p>&#x51FA;&#x573A;&#x7387;&#x540C;&#x6837;&#x9AD8;&#x7684;&#x8FD8;&#x6709;<a href="https://docs.python.org/2/reference/datamodel.html#object.__unicode__" target="_blank" rel="external"><code>object.__unicode__</code></a>, &#x548C;<code>object.__str__</code>&#x4F5C;&#x7528;&#x7C7B;&#x4F3C;, &#x4F46;&#x4E0D;&#x540C;&#x7684;&#x662F;, <code>object.__unicode__</code> &#x8FD4;&#x56DE;&#x7684;&#x662F;&#x4E00;&#x4E2A;unicode object, &#x800C; <code>object.__str__</code> &#x8FD4;&#x56DE;&#x7684;&#x662F;string object&#x3002;<br>&#x8FD9;&#x4F1A;&#x5F15;&#x8D77;&#x4E00;&#x4E9B;&#x95EE;&#x9898;, &#x7279;&#x522B;&#x662F;&#x5F53;&#x4F60;&#x5728;&#x4F7F;&#x7528;python2&#x4E2D;&#x7684;unicode_literals&#x65F6;&#x3002;</p>
+<h2 id="unicode_literals"><a href="#unicode-literals" class="headerlink" title="unicode_literals"></a>unicode_literals</h2><h3 id="unicodeencodeerror"><a href="#UnicodeEncodeError" class="headerlink" title="UnicodeEncodeError"></a>UnicodeEncodeError</h3><p>&#x6211;&#x4EEC;&#x5BF9;&#x4E0A;&#x9762;&#x7684;&#x4EE3;&#x7801;&#x505A;&#x4E00;&#x4E9B;&#x4FEE;&#x6539;:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># -*- coding: utf-8 -*-</span></div><div class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> unicode_literals</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span><span class="params">(object)</span>:</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name, grade)</span>:</span></div><div class="line">        self.name = name</div><div class="line">        self.grade = grade</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">return</span> <span class="string">&apos;{0}({1})&apos;</span>.format(self.name, self.grade)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__repr__</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">return</span> <span class="string">&apos;&lt;Student&gt;&apos;</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__unicode__</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">return</span> <span class="string">&apos;&lt;Student&gt;&apos;</span></div></pre></td></tr></table></figure>
+<p>&#x6539;&#x52A8;&#x5728;&#x4E8E;import&#x4E86;<a href="https://docs.python.org/2/reference/datamodel.html#object.__unicode__" target="_blank" rel="external"><code>unicode_literals</code></a>, &#x5E76;&#x4E3A; <code>Student</code> &#x6DFB;&#x52A0;&#x4E86;&#x4E00;&#x4E2A; <code>__unicode__</code> &#x65B9;&#x6CD5;, &#x770B;&#x8D77;&#x6765;&#x597D;&#x50CF;&#x6CA1;&#x6709;&#x4EC0;&#x4E48;&#x95EE;&#x9898;&#x3002; &#x4F46;&#x5F53;&#x4F60;&#x5B9E;&#x4F8B;&#x5316;&#x4E00;&#x4E2A; <code>Student</code> , &#x5E76;&#x5C06; <code>name</code> &#x6307;&#x5B9A;&#x4E3A;&#x4E2D;&#x6587;&#x65F6;:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">student = Student(name=<span class="string">&apos;&#x7F57;&#x4F0A;&apos;</span>, grade=<span class="number">11</span>)</div><div class="line"><span class="keyword">print</span> student</div></pre></td></tr></table></figure>
+<p>&#x62A5;&#x9519;&#x4E86;, <code>UnicodeEncodeError</code> &#x3002; &#x4F60;&#x6216;&#x8BB8;&#x7CBE;&#x901A;python2&#x7684;&#x4E2D;&#x6587;&#x7F16;&#x7801;&#x95EE;&#x9898;, &#x4F46;&#x4E5F;&#x8BB8;&#x5E76;&#x6CA1;&#x6709;&#x6CE8;&#x610F;&#x5230;&#x8FD9;&#x4E2A;&#x95EE;&#x9898;&#x3002;<br>&#x5728;&#x4F7F;&#x7528;django&#x65F6;&#x9047;&#x5230;&#x8FC7; <code>[Bad Unicode data]</code> &#x8FD9;&#x4E2A;&#x4E1C;&#x897F;, &#x95EE;&#x9898;&#x662F;&#x4E00;&#x6837;&#x7684;, django&#x5728;&#x9879;&#x76EE;&#x4E2D;&#x4E5F;&#x4F7F;&#x7528;&#x4E86; <code>unicode_literals</code> &#x3002;</p>
+<h3 id="&#x95EE;&#x9898;&#x5728;&#x54EA;"><a href="#&#x95EE;&#x9898;&#x5728;&#x54EA;" class="headerlink" title="&#x95EE;&#x9898;&#x5728;&#x54EA;"></a>&#x95EE;&#x9898;&#x5728;&#x54EA;</h3><p>&#x95EE;&#x9898;&#x5728;&#x4E8E; <code>object.__str__</code> &#x8FD4;&#x56DE;&#x7684;&#x5FC5;&#x987B;&#x4E3A;string object, &#x800C;&#x4F7F;&#x7528; <code>unicode_literals</code> &#x4E4B;&#x540E;&#x8FD4;&#x56DE;&#x7684;&#x4E3A;unicode object, python2&#x89E3;&#x91CA;&#x5668;&#x4F1A;&#x5C1D;&#x8BD5;&#x7528;&#x9ED8;&#x8BA4;&#x7684;&#x7F16;&#x7801;(ascii)&#x5BF9;&#x5176;&#x8FDB;&#x884C;encode, &#x6240;&#x4EE5;&#x62A5;&#x9519;&#x3002;</p>
+<h3 id="&#x89E3;&#x51B3;&#x95EE;&#x9898;"><a href="#&#x89E3;&#x51B3;&#x95EE;&#x9898;" class="headerlink" title="&#x89E3;&#x51B3;&#x95EE;&#x9898;"></a>&#x89E3;&#x51B3;&#x95EE;&#x9898;</h3><p><code>unicode_literals</code> &#x5728;python2&#x4E2D;&#x662F;&#x4E2A;&#x5229;&#x5668;, &#x4E0D;&#x80FD;&#x4E0D;&#x7528;&#x3002;<br>&#x63A5;&#x4E0B;&#x6765;&#x6211;&#x4EEC;&#x7528;&#x4E24;&#x79CD;&#x65B9;&#x6CD5;&#x6765;&#x89E3;&#x51B3;&#x4E0A;&#x9762;&#x8FD9;&#x4E2A;&#x95EE;&#x9898;&#x3002;</p>
+<h4 id="patch"><a href="#patch" class="headerlink" title="patch"></a>patch</h4><p>&#x8FD9;&#x662F;&#x4E00;&#x79CD;&#x7ECF;&#x5178;&#x7684;&#x65B9;&#x6CD5;:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> sys</div><div class="line">reload(sys)</div><div class="line">sys.setdefaultencoding(<span class="string">&apos;utf8&apos;</span>)</div></pre></td></tr></table></figure>
+<p>&#x91CD;&#x8F7D; <code>sys</code> &#x5E76;&#x5C06; <code>defaultencoding</code> &#x4ECE; <code>ascii</code> &#x4FEE;&#x6539;&#x4E3A; <code>utf-8</code> , &#x5BF9;&#x542B;&#x4E2D;&#x6587;&#x7684;unicode object&#x4F7F;&#x7528;utf-8&#x8FDB;&#x884C;encode&#x662F;&#x53EF;&#x884C;&#x7684;&#x3002;</p>
+<h4 id="&#x88C5;&#x9970;&#x5668;"><a href="#&#x88C5;&#x9970;&#x5668;" class="headerlink" title="&#x88C5;&#x9970;&#x5668;"></a>&#x88C5;&#x9970;&#x5668;</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">force_encoded_string_output</span><span class="params">(func)</span>:</span></div><div class="line">    <span class="keyword">if</span> sys.version_info.major &lt; <span class="number">3</span>:</div><div class="line">        <span class="function"><span class="keyword">def</span> <span class="title">_func</span><span class="params">(*args, **kwargs)</span>:</span></div><div class="line">            <span class="keyword">return</span> func(*args, **kwargs).encode(<span class="string">&apos;utf-8&apos;</span>)</div><div class="line"></div><div class="line">        <span class="keyword">return</span> _func</div><div class="line"></div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        <span class="keyword">return</span> func</div></pre></td></tr></table></figure>
+<p>&#x4F7F;&#x7528; <code>force_encoded_string_output</code> &#x88C5;&#x9970; <code>object.__str__</code> &#x5373;&#x53EF;, &#x89E3;&#x51B3;&#x7684;&#x601D;&#x8DEF;&#x548C;&#x4E0A;&#x9762;&#x7C7B;&#x4F3C;&#x3002;</p>
+<h3 id="&#x6700;&#x4F73;&#x5B9E;&#x8DF5;"><a href="#&#x6700;&#x4F73;&#x5B9E;&#x8DF5;" class="headerlink" title="&#x6700;&#x4F73;&#x5B9E;&#x8DF5;"></a>&#x6700;&#x4F73;&#x5B9E;&#x8DF5;</h3><p>&#x5F53;&#x4F60;&#x5728;python2&#x4E2D;&#x540C;&#x65F6;&#x4F7F;&#x7528;&#x4E2D;&#x6587;, <code>unicode_literals</code>, <code>__str__</code>, <code>__unicode__</code> &#x53EF;&#x4EE5;&#x8003;&#x8651;&#x4E0B;&#x9762;&#x7684;&#x65B9;&#x5F0F;:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> unicode_literals</div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Best</span><span class="params">(object)</span>:</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">return</span> unicode(self).encode(<span class="string">&apos;utf-8&apos;</span>)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__unicode__</span><span class="params">(self)</span>:</span></div><div class="line">        s = <span class="string">&apos;Put your data here.&apos;</span> </div><div class="line">        <span class="keyword">assert</span> isinstance(s, unicode)</div><div class="line">        <span class="keyword">return</span> s</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;__str__-&amp;#x548C;-__repr__&quot;&gt;&lt;a href=&quot;#str-&amp;#x548C;-repr&quot; class=&quot;headerlink&quot; title=&quot;__str__ &amp;#x548C; __repr__&quot;&gt;&lt;/a&gt;__str__ &amp;#x548C; __
+    
+    </summary>
+    
+      <category term="技术" scheme="http://hopperclouds.github.io/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="python" scheme="http://hopperclouds.github.io/tags/python/"/>
+    
+      <category term="str" scheme="http://hopperclouds.github.io/tags/str/"/>
+    
+      <category term="unicode_literals" scheme="http://hopperclouds.github.io/tags/unicode-literals/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>前端入门之我见</title>
+    <link href="http://hopperclouds.github.io/2016/08/30/%E5%89%8D%E7%AB%AF%E5%85%A5%E9%97%A8%E4%B9%8B%E6%88%91%E8%A7%81/"/>
+    <id>http://hopperclouds.github.io/2016/08/30/前端入门之我见/</id>
+    <published>2016-08-30T14:48:37.000Z</published>
+    <updated>2016-08-31T09:07:23.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>&#x4F5C;&#x8005;&#xFF1A;Adam at 2016-08-30 22:48:37</p>
+<p>&#x8FD9;&#x4E24;&#x5468;&#x9646;&#x9646;&#x7EED;&#x7EED;&#x8FDB;&#x884C;&#x4E86;&#x4E24;&#x4E2A;&#x72EC;&#x7ACB;&#x7684;&#x524D;&#x7AEF;&#x9879;&#x76EE;&#xFF0C;&#x4E00;&#x4E2A;&#x662F;&#x524D;&#x540E;&#x7AEF;&#x5206;&#x79BB;&#x7684;Angular&#x9879;&#x76EE;&#xFF0C;&#x4E00;&#x4E2A;&#x662F;ES6+Nodejs&#x7684;&#x5168;&#x6808;&#x9879;&#x76EE;&#xFF0C;&#x524D;&#x8005;&#x5148;&#x505A;&#xFF0C;&#x540E;&#x8005;&#x5DEE;&#x4E0D;&#x591A;&#x521A;&#x5B8C;&#x6210;&#xFF0C;&#x6700;&#x660E;&#x663E;&#x7684;&#x611F;&#x89C9;&#x5C31;&#x662F;&#x5199;&#x4E86;Angular&#x4E0D;&#x60F3;&#x5199;JQuery&#xFF0C;&#x5199;&#x4E86;ES6&#x4E0D;&#x60F3;&#x5199;ES5&#x3002;</p>
+<p>&#x6211;&#x5C31;&#x5728;&#x60F3;&#xFF0C;&#x4E3A;&#x4EC0;&#x4E48;&#x4F1A;&#x6709;&#x8FD9;&#x4E48;&#x5F3A;&#x70C8;&#x611F;&#x89C9;&#xFF1F;&#x662F;&#x4EC0;&#x4E48;&#x5BFC;&#x81F4;&#x7684;&#xFF1F;</p>
+<p>&#x9996;&#x5148;&#xFF0C;&#x6211;&#x4EEC;&#x6765;&#x770B;&#x770B;&#x524D;&#x7AEF;&#x4E3B;&#x8981;&#x505A;&#x4EC0;&#x4E48;&#xFF1F;</p>
+<p>&#x4E00;&#x662F;&#x9875;&#x9762;&#xFF1A;HTML+CSS&#x6837;&#x5F0F;&#x5E03;&#x5C40;&#xFF1B;<br>&#x4E8C;&#x662F;Javascript&#x811A;&#x672C;&#xFF1A;&#x6839;&#x636E;&#x9875;&#x9762;&#x4E8B;&#x4EF6;&#x54CD;&#x5E94;&#x3001;&#x63A7;&#x5236;&#x9875;&#x9762;&#x903B;&#x8F91;&#x3002;</p>
+<p>&#x5C31;&#x8FD9;&#x4E48;&#x7B80;&#x5355;&#x3002;</p>
+<p>&#x7136;&#x540E;&#xFF0C;CSS&#x6837;&#x5F0F;&#x591A;&#x4E86;&#xFF0C;Javascript&#x51FD;&#x6570;&#x591A;&#x4E86;&#xFF0C;&#x6211;&#x4EEC;&#x5C31;&#x5E0C;&#x671B;&#x4EE3;&#x7801;&#x597D;&#x7EF4;&#x62A4;&#xFF0C;&#x65B9;&#x4FBF;&#x8C03;&#x7528;&#xFF0C;&#x5C11;&#x5199;&#x4EE3;&#x7801;&#xFF0C;&#x4E8E;&#x662F;&#x5C31;&#x51FA;&#x73B0;&#x4E86;&#x5404;&#x79CD;CSS&#xFF0F;Javascript&#x6846;&#x67B6;&#x3002;</p>
+<p>&#x968F;&#x4E4B;&#x800C;&#x6765;&#x7684;&#x95EE;&#x9898;&#x4E5F;&#x51FA;&#x73B0;&#x4E86;&#xFF0C;&#x903B;&#x8F91;&#x53D8;&#x590D;&#x6742;&#xFF0C;&#x8FD9;&#x5C31;&#x9700;&#x8981;&#x6211;&#x4EEC;&#x628A;&#x6CE8;&#x91CA;&#x8981;&#x5199;&#x6E05;&#x695A;&#xFF0C;&#x751A;&#x81F3;&#x5B8C;&#x5168;&#x6587;&#x6863;&#x5316;&#x3002;</p>
+<p>Javascript&#x5199;&#x6CD5;&#x592A;&#x81EA;&#x7531;&#x4E86;&#xFF0C;&#x5199;&#x51FA;&#x6765;&#x6548;&#x679C;&#x5F80;&#x5F80;&#x5BB9;&#x6613;&#x6709;bug&#xFF0C;&#x52A0;&#x4E0A;&#x4E0D;&#x540C;&#x6D4F;&#x89C8;&#x5668;&#x7684;&#x3001;&#x4E0D;&#x540C;&#x7EC8;&#x7AEF;&#x7684;&#x6298;&#x817E;&#xFF0C;&#x597D;&#x5427;&#xFF0C;&#x6211;&#x4EEC;&#x628A;&#x5355;&#x5143;&#x6D4B;&#x8BD5;&#x3001;&#x754C;&#x9762;&#x6D4B;&#x8BD5;&#x8865;&#x4E0A;&#xFF0C;&#x8FD9;&#x4E0B;&#x603B;&#x53EF;&#x4EE5;&#x4E86;&#x5427;&#x3002;</p>
+<p>&#x4F46;&#x662F;&#xFF0C;&#x95EE;&#x9898;&#x5E76;&#x6CA1;&#x6709;&#x7ED3;&#x675F;&#x3002;</p>
+<p>&#x6211;&#x4EEC;&#x5F00;&#x59CB;&#x601D;&#x8003;Javascript&#x662F;&#x5426;&#x771F;&#x7684;&#x9002;&#x5408;&#x5199;&#x524D;&#x7AEF;&#x9875;&#x9762;&#xFF0C;&#x4E3A;&#x4EC0;&#x4E48;Javascript&#x5199;&#x5927;&#x578B;&#x9879;&#x76EE;&#x8FD9;&#x4E48;&#x75DB;&#x82E6;&#xFF1F;&#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x4E0D;&#x65AD;&#x91CD;&#x590D;&#x5199;&#x5199;&#x767B;&#x5F55;&#x6CE8;&#x518C;&#xFF1F;&#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x79BB;&#x4E0D;&#x5F00;for&#x5FAA;&#x73AF;&#xFF1F;&#x4E3A;&#x4EC0;&#x4E48;&#x4E0D;&#x80FD;&#x5C3D;&#x53EF;&#x80FD;&#x9AD8;&#x7684;&#x91CD;&#x7528;&#x4EE3;&#x7801;&#xFF1F;</p>
+<p>&#x6211;&#x4EEC;&#x5F88;&#x65E9;&#x5C31;&#x5728;&#x8BF4;OOP&#x3001;MVC&#xFF0C;&#x4E5F;&#x6709;&#x73B0;&#x5728;&#x7684;MVVM&#x3001;SAM&#xFF0C;&#x4E5F;&#x51FA;&#x4E86;&#x4E0D;&#x5C11;&#x7ECF;&#x5178;&#x6846;&#x67B6;&#xFF0C;&#x4F46;Javascript&#x59CB;&#x7EC8;&#x8FD8;&#x662F;Javascript&#xFF0C;&#x6CA1;&#x6709;class&#xFF0C;&#x6CA1;&#x6709;isArray&#xFF0C;&#x53EA;&#x6709;&#x8BF4;&#x4E0D;&#x6E05;&#x9053;&#x4E0D;&#x660E;&#x7684; <code>prototype</code> &#x548C; <code>__proto__</code> &#x3002;&#x65E2;&#x7136;&#x6211;&#x4EEC;&#x77E5;&#x9053;&#x4EC0;&#x4E48;&#x6837;&#x7684;&#x8BED;&#x6CD5;&#x7B80;&#x6D01;&#x9AD8;&#x6548;&#xFF0C;&#x4E3A;&#x4EC0;&#x4E48;&#x4E0D;&#x8BA9;Javascript&#x4E5F;&#x80FD;&#x8FD9;&#x4E48;&#x505A;&#x5462;&#xFF1F;&#x6240;&#x4EE5;&#xFF0C;Type Script&#x51FA;&#x6765;&#x4E86;&#xFF0C;Webpack/Babel&#x51FA;&#x6765;&#x4E86;&#xFF0C;ES6&#x51FA;&#x6765;&#x4E86;&#x3002;</p>
+<p>&#x6240;&#x4EE5;&#xFF0C;&#x5982;&#x679C;&#x73B0;&#x5728;&#x4F60;&#x60F3;&#x5B66;&#x524D;&#x7AEF;&#xFF0C;&#x76F4;&#x63A5;&#x5199;ES6&#x5427;&#xFF0C;&#x6709;&#x4E86;webpack&#x548C;babel&#xFF0C;&#x4EE5;&#x524D;&#x80FD;&#x505A;&#x7684;&#x73B0;&#x5728;&#x90FD;&#x80FD;&#x505A;&#xFF0C;&#x73B0;&#x5728;&#x80FD;&#x505A;&#x7684;&#xFF0C;&#x4EE5;&#x524D;&#x4E0D;&#x4E00;&#x5B9A;&#x80FD;&#x505A;&#x3002;</p>
+<p>&#x5982;&#x4ECA;&#x524D;&#x7AEF;&#x4E5F;&#x518D;&#x4E5F;&#x4E0D;&#x662F;&#x5199;&#x5199;&#x9875;&#x9762;&#x3001;&#x505A;&#x505A;&#x811A;&#x672C;&#xFF0C;&#x4E0D;&#x518D;&#x662F;&#x7F51;&#x9875;&#x4E09;&#x5251;&#x5BA2;&#x7684;&#x65F6;&#x4EE3;&#x3002;&#x4F60;&#x8FD8;&#x9700;&#x8981;&#x7CBE;&#x901A;Sublime/Vim&#x8FD9;&#x4E9B;&#x7F16;&#x8F91;&#x5668;&#xFF0C;&#x4F1A;&#x67B6;&#x6784;&#x524D;&#x7AEF;&#x5F00;&#x53D1;&#x73AF;&#x5883;&#x3001;&#x719F;&#x6089;Nodejs/NPM&#xFF0C;&#x638C;&#x63E1;Phantomjs/Jasmine&#x7B49;&#x6D4B;&#x8BD5;&#x624B;&#x6BB5;&#xFF0C;&#x4F1A;&#x7528;JsDoc&#x5199;&#x6587;&#x6863;&#x3002;&#x5F53;&#x7136;&#xFF0C;&#x6700;&#x91CD;&#x8981;&#x7684;&#x8FD8;&#x662F;&#x8981;&#x5B66;&#x597D;ES6&#x3002;</p>
+<p>&#x6700;&#x540E;&#xFF0C;&#x6211;&#x603B;&#x7ED3;&#x4E00;&#x4E0B;&#x6211;&#x5B66;&#x4E60;ES6&#x540E;&#xFF0C;&#x53D1;&#x73B0;&#x7684;&#x4E00;&#x4E9B;&#x597D;&#x5904;&#xFF0C;&#x5E0C;&#x671B;&#x548C;&#x5927;&#x5BB6;&#x591A;&#x4EA4;&#x6D41;&#x3001;&#x6C9F;&#x901A;&#xFF5E;</p>
+<ul>
+<li>OOP&#x7684;&#x539F;&#x914D;Class&#xFF0C;&#x5199;&#x8D77;&#x6765;&#x7684;&#x9178;&#x723D;&#x500D;&#x513F;&#x68D2;&#x53EA;&#x6709;&#x81EA;&#x5DF1;&#x77E5;&#x9053;</li>
+<li>&#x6A21;&#x5757;&#x5316;&#x5BFC;&#x5165;&#xFF0C;&#x8BA9;&#x6211;&#x53EF;&#x4EE5;&#x524D;&#x540E;&#x7AEF;&#x5171;&#x4EAB;&#x4EE3;&#x7801;</li>
+<li>&#x51FD;&#x6570;&#x53C2;&#x6570;&#x7684;&#x6269;&#x5C55;&#x662F;&#x6211;&#x7684;&#x6700;&#x7231;&#xFF0C;&#x76F4;&#x63A5;&#x8BA9;&#x6211;&#x8F7B;&#x677E;20%</li>
+<li>&#x4EE3;&#x7801;&#x5BC6;&#x96C6;&#x5EA6;&#x660E;&#x663E;&#x597D;&#x4E8E;&#x8FC7;&#x53BB;&#xFF0C;&#x8FD9;&#x662F;&#x5BC6;&#x96C6;&#x6050;&#x60E7;&#x75C7;&#x7684;&#x798F;&#x97F3;</li>
+<li>Webpack&#x65E0;&#x7591;&#x662F;&#x524D;&#x7AEF;&#x5F00;&#x53D1;&#x81EA;&#x52A8;&#x5316;&#x7684;&#x5FC5;&#x5907;&#x795E;&#x5668;&#xFF0C;&#x4F60;&#x503C;&#x5F97;&#x62E5;&#x6709;&#xFF5E;</li>
+<li>&#x4F60;&#x4E0D;&#x518D;&#x9700;&#x8981;&#x6A21;&#x7248;&#x8BED;&#x8A00;&#xFF0C;ES6&#x5C31;&#x662F;&#x6700;&#x597D;&#x7684;&#x6A21;&#x7248;&#x8BED;&#x8A00;</li>
+<li>&#x4E00;&#x5207;&#x7686;Js&#xFF0C;HTML&#x662F;&#xFF0C;CSS&#x4E5F;&#x662F;</li>
+</ul>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&amp;#x4F5C;&amp;#x8005;&amp;#xFF1A;Adam at 2016-08-30 22:48:37&lt;/p&gt;
+&lt;p&gt;&amp;#x8FD9;&amp;#x4E24;&amp;#x5468;&amp;#x9646;&amp;#x9646;&amp;#x7EED;&amp;#x7EED;&amp;#x8FDB;&amp;#x884C;&amp;#x4E8
+    
+    </summary>
+    
+      <category term="blog" scheme="http://hopperclouds.github.io/categories/blog/"/>
+    
+    
+      <category term="ES6" scheme="http://hopperclouds.github.io/tags/ES6/"/>
+    
+      <category term="Webpack" scheme="http://hopperclouds.github.io/tags/Webpack/"/>
+    
+      <category term="经验总结" scheme="http://hopperclouds.github.io/tags/%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%93/"/>
+    
+  </entry>
   
   <entry>
     <title>django自定义storage</title>
