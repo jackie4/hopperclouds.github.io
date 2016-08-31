@@ -91,7 +91,8 @@ npm install hexo -g
 ```
 
 #### 添加文章
-复制markdown格式的文章到 **source/_posts** 目录下, 可以参考该目录下的其它文档在文档头部添加一些说明信息
+复制markdown格式的文章到 **source/_posts** 目录下, 并进行add, commit, push。
+另外可以参考该目录下的`聘宝招聘Python实习生.md`文档在文档头部添加一些说明信息。
 
 #### 发布文章到线上
 ```
@@ -119,7 +120,7 @@ hexo server
 
 ##### 使用图片粘贴上传服务
 
-访问[img.pinbot.me:8080](http://img.pinbot.me:8080/)
+访问 [img.pinbot.me:8080](http://img.pinbot.me:8080/)
 
 
 
